@@ -1,0 +1,16 @@
+name: .NET
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: EditorConfig-Action
+      uses: zbeekman/EditorConfig-Action@v1.1.1
