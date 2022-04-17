@@ -4,34 +4,49 @@
              x:Class="VaccineApp.Views.Admin.Home.Cluster.ClustersListPage"
              xmlns:ViewModel="clr-namespace:VaccineApp.ViewModels.Admin.Home.Cluster"
              xmlns:Model="clr-namespace:Core.Models;assembly=Core"
-             x:DataType="ViewModel:ClustersListViewModel"
-             Title="ClustersListPage">
+             x:DataType="ViewModel:ClustersListViewModel">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Add Cluster"
+        <ToolbarItem IconImageSource="add.png"
+                     Order="Secondary"
+                     Text="Add Cluster"
                      Command="{Binding AddClusterCommand}" />
     </ContentPage.ToolbarItems>
+    <Grid RowDefinitions="0.15*, 0.85*"
+          RowSpacing="0"
+          HorizontalOptions="Center"
+          WidthRequest="{OnPlatform UWP='300', Default='300'}">
 
-    <StackLayout Padding="40"
-                 WidthRequest="{OnPlatform UWP='300', Default='300'}">
+        <StackLayout Grid.Row="0"
+                     VerticalOptions="CenterAndExpand"
+                     HorizontalOptions="CenterAndExpand">
+            <Label FontSize="25"
+                   TextColor="{DynamicResource HeaderLabelTextColor}"
+                   Text="Cluster Name" />
+        </StackLayout>
 
-        <CollectionView SelectionMode="Single"
-                        ItemsSource="{Binding Clusters}"
-                        SelectedItem="{Binding SelectedCluster}">
-            <CollectionView.Header>
-                <StackLayout VerticalOptions="Center">
-                    <Label FontSize="Title"
-                           Text="Cluster Name" />
-                </StackLayout>
-            </CollectionView.Header>
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="Model:ClusterModel">
-                    <StackLayout Padding="0,2,0,0">
-                        <Label Text="{Binding ClusterName}"></Label>
-                    </StackLayout>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-    </StackLayout>
+        <ScrollView Grid.Row="1"
+                    IsClippedToBounds="True"
+                    Padding="4">
 
+            <CollectionView SelectionMode="Single"
+                            ItemsSource="{Binding Clusters}"
+                            SelectedItem="{Binding SelectedCluster}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="Model:ClusterModel">
+                        <Frame WidthRequest="280"
+                               HeightRequest="36"
+                               CornerRadius="4">
+                            <StackLayout Padding="5"
+                                         BackgroundColor="{DynamicResource ListItemBackgroundColor}">
+                                <Label TextColor="{DynamicResource ListItemTextColor}"
+                                       Text="{Binding ClusterName}" />
+                            </StackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+        </ScrollView>
+    </Grid>
 </ContentPage>

@@ -5,9 +5,10 @@
              xmlns:ViewModel="clr-namespace:VaccineApp.ViewModels.Mobilizer.Home.Status.Vaccine"
              x:DataType="ViewModel:AddVaccineViewModel"
              Shell.TabBarIsVisible="False"
-             Title="AddVaccinePage">
+             Title="Add Vaccine">
     <StackLayout Padding="10"
-                 WidthRequest="{OnPlatform UWP='300', Default='300'}">
+                 WidthRequest="{OnPlatform UWP='300', Default='300'}"
+                 HorizontalOptions="Center">
         <DatePicker Date="{Binding Vaccine.Date, Mode=OneWayToSource}"
                     WidthRequest="{OnPlatform UWP='300', Default='300'}" />
         <Picker ItemsSource="{Binding Statuses}"
@@ -15,6 +16,11 @@
                 SelectedItem="{Binding Vaccine.Status, Mode=TwoWay}"
                 WidthRequest="{OnPlatform UWP='300', Default='300'}" />
 
+        <StackLayout Orientation="Horizontal">
+            <CheckBox IsChecked="{Binding IsLocationAvailable}" />
+            <Label Text="Add Location" />
+        </StackLayout>
+        
         <Button Text="Save"
                 TranslationY="50"
                 WidthRequest="130"

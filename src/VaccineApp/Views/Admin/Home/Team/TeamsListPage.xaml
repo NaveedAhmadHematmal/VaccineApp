@@ -5,40 +5,64 @@
              xmlns:ViewModel="clr-namespace:VaccineApp.ViewModels.Admin.Home.Team"
              xmlns:Model="clr-namespace:Core.Models;assembly=Core"
              xmlns:GroupByModel="clr-namespace:Core.GroupByModels;assembly=Core"
-             x:DataType="ViewModel:TeamsListViewModel"
-             Title="TeamsListPage">
+             x:DataType="ViewModel:TeamsListViewModel">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Add Team"
+        <ToolbarItem IconImageSource="add.png"
+                     Order="Secondary"
+                     Text="Add Team"
                      Command="{Binding AddTeamCommand}" />
     </ContentPage.ToolbarItems>
 
-    <CollectionView IsGrouped="True"
-                    ItemsSource="{Binding TeamsGroupByCluster}">
+    <Grid RowDefinitions="0.15*, 0.85*"
+          RowSpacing="0"
+          HorizontalOptions="Center"
+          WidthRequest="{OnPlatform UWP='300', Default='300'}">
 
-        <CollectionView.Header>
-            <StackLayout VerticalOptions="Center">
-                <Label FontSize="Title"
-                       Text="Teams" />
-            </StackLayout>
-        </CollectionView.Header>
+        <StackLayout Grid.Row="0"
+                     VerticalOptions="CenterAndExpand"
+                     HorizontalOptions="CenterAndExpand">
+            <Label FontSize="25"
+                   TextColor="{DynamicResource HeaderLabelTextColor}"
+                   Text="Team Name" />
+        </StackLayout>
 
-        <CollectionView.ItemTemplate>
-            <DataTemplate x:DataType="Model:TeamModel">
-                <StackLayout Padding="0,2,0,0">
-                    <Label Text="{Binding TeamNo }" />
-                </StackLayout>
-            </DataTemplate>
-        </CollectionView.ItemTemplate>
+        <ScrollView Grid.Row="1"
+                    IsClippedToBounds="True"
+                    Padding="4">
 
-        <CollectionView.GroupHeaderTemplate>
-            <DataTemplate x:DataType="GroupByModel:TeamsGroupByClusterModel">
-                <StackLayout Padding="0,2,0,0">
-                    <Label Text="{Binding ClusterName}" />
-                </StackLayout>
-            </DataTemplate>
-        </CollectionView.GroupHeaderTemplate>
+            <CollectionView IsGrouped="True"
+                            ItemsSource="{Binding TeamsGroupByCluster}">
 
-    </CollectionView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="Model:TeamModel">
+                        <Frame WidthRequest="280"
+                               HeightRequest="36"
+                               CornerRadius="4">
+                            <StackLayout Padding="5"
+                                         BackgroundColor="{DynamicResource ListItemBackgroundColor}">
+                                <Label TextColor="{DynamicResource ListItemTextColor}"
+                                       Text="{Binding TeamNo}" />
+                            </StackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
 
+                <CollectionView.GroupHeaderTemplate>
+                    <DataTemplate x:DataType="GroupByModel:TeamsGroupByClusterModel">
+                        <Frame WidthRequest="255"
+                               HeightRequest="30"
+                               CornerRadius="4">
+                            <StackLayout Padding="5"
+                                         BackgroundColor="{DynamicResource GroupHeaderTextColor}">
+                                <Label TextColor="{DynamicResource ListItemTextColor}"
+                                       Text="{Binding ClusterName}" />
+                            </StackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.GroupHeaderTemplate>
+
+            </CollectionView>
+        </ScrollView>
+    </Grid>
 </ContentPage>

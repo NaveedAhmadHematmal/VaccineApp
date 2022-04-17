@@ -1,38 +1,51 @@
-﻿using Core.Models;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using Core.Models;
 using DAL.Persistence;
+using Newtonsoft.Json;
 using System.Collections.ObjectModel;
-using System.Windows.Input;
-using VaccineApp.ViewModels.Base;
 using VaccineApp.Views.Mobilizer.Home.Area.Clinic;
 
 namespace VaccineApp.ViewModels.Mobilizer.Home.Area.Clinic;
 
-public class ClinicsListViewModel : ViewModelBase
+public partial class ClinicsListViewModel : ObservableObject
 {
-    private readonly UnitOfWork _unitOfWork;
-    private IEnumerable<ClinicModel> _clinics;
+    readonly UnitOfWork _unitOfWork;
+
+    [ObservableProperty]
+    IEnumerable<ClinicModel> _clinics;
+
+    [ObservableProperty]
+    ClinicModel _selectedClinic;
     public ClinicsListViewModel(UnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
         Clinics = new ObservableCollection<ClinicModel>();
-        AddClinicCommand = new Command(AddClinic);
     }
 
-    public IEnumerable<ClinicModel> Clinics
-    {
-        get { return _clinics; }
-        set
-        {
-            _clinics = value;
-            OnPropertyChanged();
-        }
-    }
-    public ICommand AddClinicCommand { private set; get; }
-    private async void AddClinic(object obj)
+    [ICommand]
+    async void AddClinic(object obj)
     {
         var route = $"{nameof(AddClinicPage)}";
         await Shell.Current.GoToAsync(route);
     }
+
+    [ICommand]
+    async void ClinicDetails()
+    {
+        if (SelectedClinic == null)
+        {
+            return;
+        }
+        else
+        {
+            var SelectedItemJson = JsonConvert.SerializeObject(SelectedClinic);
+            var route = $"{nameof(ClinicDetailsPage)}?Clinic={SelectedItemJson}";
+            await Shell.Current.GoToAsync(route);
+            SelectedClinic = null;
+        }
+    }
+
     public async void Get()
     {
         try

@@ -5,8 +5,7 @@
              xmlns:ViewModel="clr-namespace:VaccineApp.ViewModels.Supervisor.Announcements"
              x:DataType="ViewModel:AnnouncementsListViewModel"
              xmlns:Model="clr-namespace:Core.Models;assembly=Core"
-             xmlns:converters="clr-namespace:VaccineApp.Converters"
-             Title="AnnouncementsListPage">
+             xmlns:converters="clr-namespace:VaccineApp.Converters">
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -15,11 +14,16 @@
     </ContentPage.Resources>
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Add Announcement"
+        <ToolbarItem IconImageSource="add.png"
+                     Order="Secondary"
+                     Text="Add Announcement"
                      Command="{Binding AddAnnouncementCommand}" />
     </ContentPage.ToolbarItems>
 
-    <StackLayout Padding="40">
+    <ScrollView Padding="4"
+                HorizontalOptions="Center"
+                WidthRequest="{OnPlatform UWP='300', Default='300'}">
+
         <CollectionView ItemsSource="{Binding Announcements}">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="Model:AnnouncementModel">
@@ -36,7 +40,7 @@
                                     <Label Text="{Binding Content}" />
                                     <Label Text="{Binding MessageDateTime, Converter={StaticResource DateToMessageTimeHint}}"
                                            TextColor="DarkBlue"
-                                           Margin="200,0,0,0" />
+                                           Margin="150,0,0,0" />
                                 </StackLayout>
                             </Frame.Content>
                         </Frame>
@@ -45,5 +49,6 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-    </StackLayout>
+
+    </ScrollView>
 </ContentPage>

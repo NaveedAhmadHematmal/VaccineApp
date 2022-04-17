@@ -1,27 +1,33 @@
 ﻿using Auth.Services;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+
 using VaccineApp.Features;
-using System.Windows.Input;
-using VaccineApp.ViewModels.Base;
 
 namespace VaccineApp.ViewModels.Access.ForgotPassword;
 
-public class ForgotPasswordViewModel : ViewModelBase
+public partial class ForgotPasswordViewModel : ObservableObject
 {
-    private string _email;
+    [ObservableProperty]
+    string? _email;
+
     private readonly AccountService _accountService;
     private readonly IToast _toast;
 
     public ForgotPasswordViewModel(AccountService accountService, IToast toast)
     {
-        ResetPasswordByEmailCommand = new Command(ResetPasswordByEmail);
         _accountService = accountService;
         _toast = toast;
     }
 
+    [ICommand]
     private async void ResetPasswordByEmail()
     {
         try
         {
+            if (Email is null)
+                return; 
+
             _ = _accountService.SendPasswordResetCode(Email);
             await Shell.Current.GoToAsync("..");
             _toast.MakeToast("Password Changed");
@@ -31,11 +37,4 @@ public class ForgotPasswordViewModel : ViewModelBase
             _toast.MakeToast(ex.Message);
         }
     }
-
-    public string Email
-    {
-        get { return _email; }
-        set { _email = value; OnPropertyChanged(); }
-    }
-    public ICommand ResetPasswordByEmailCommand { private set; get; }
 }

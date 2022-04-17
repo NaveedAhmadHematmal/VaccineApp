@@ -3,18 +3,22 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="VaccineApp.Views.Parent.Guides.VaccineGuidesPage"
              xmlns:ViewModel="clr-namespace:VaccineApp.ViewModels.Parent.Guides"
-             x:DataType="ViewModel:VaccineGuidesViewModel"
-             Title="VaccineGuidesPage">
+             x:DataType="ViewModel:VaccineGuidesViewModel">
 
-    <CollectionView ItemSizingStrategy="MeasureAllItems"
-                    ItemsSource="{Binding Strings}">
-        <CollectionView.ItemTemplate>
-            <DataTemplate>
-                <Label FlowDirection="RightToLeft"
-                       Padding="50"
-                       Text="{Binding .}" />
-            </DataTemplate>
-        </CollectionView.ItemTemplate>
-    </CollectionView>
+    <ScrollView Padding="10"
+                WidthRequest="{OnPlatform UWP='300', Default='300'}"
+                HorizontalOptions="Center">
 
+        <CollectionView ItemSizingStrategy="MeasureAllItems"
+                        ItemsSource="{Binding Strings}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Label FlowDirection="RightToLeft"
+                           Padding="4"
+                           Text="{Binding .}" />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        
+    </ScrollView>
 </ContentPage>

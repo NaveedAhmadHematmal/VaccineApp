@@ -5,10 +5,11 @@
              xmlns:ViewModel="clr-namespace:VaccineApp.ViewModels.Mobilizer.Home.Area.Doctor"
              x:DataType="ViewModel:AddDoctorViewModel"
              Shell.TabBarIsVisible="False"
-             Title="AddDoctorPage">
+             Title="Add Doctor">
 
     <StackLayout Padding="10"
                  Spacing="5"
+                 HorizontalOptions="Center"
                  WidthRequest="{OnPlatform UWP='300', Default='300'}">
         <Entry Text="{Binding Doctor.Name, Mode=TwoWay}"
                Placeholder="Doctor Name" />

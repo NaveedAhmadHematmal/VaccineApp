@@ -4,19 +4,30 @@
              x:Class="VaccineApp.Views.Supervisor.Periods.AddPeriodPage"
              xmlns:ViewModel="clr-namespace:VaccineApp.ViewModels.Supervisor.Periods"
              x:DataType="ViewModel:AddPeriodViewModel"
-             Title="AddPeriodPage">
-    <StackLayout Padding="40"
+             Shell.TabBarIsVisible="False"
+             Title="Add Period">
+    
+    <StackLayout Padding="10"
+                 Spacing="5"
+                 HorizontalOptions="Center"
                  WidthRequest="{OnPlatform UWP='300', Default='300'}">
 
         <Label Text="Start Date" />
-        <DatePicker Date="{Binding Period.StartDate}" />
+        <DatePicker Date="{Binding Period.StartDate}"
+                    WidthRequest="{OnPlatform UWP='280', Default='280'}" />
         <Label Text="End Date" />
-        <DatePicker Date="{Binding Period.EndDate}" />
+        <DatePicker Date="{Binding Period.EndDate}"
+                    WidthRequest="{OnPlatform UWP='280', Default='280'}" />
 
         <Entry Placeholder="Period Name"
                Text="{Binding Period.PeriodName}" />
 
         <Button Text="Save"
-                Command="{Binding PostCommand}" />
+                TranslationY="50"
+                WidthRequest="130"
+                HeightRequest="50"
+                HorizontalOptions="Center"
+                Command="{Binding PostCommand}"
+                Margin="20" />
     </StackLayout>
 </ContentPage>

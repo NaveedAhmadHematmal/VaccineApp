@@ -4,39 +4,61 @@
              x:Class="VaccineApp.Views.Parent.ParentFamilyPage"
              xmlns:ViewModel="clr-namespace:VaccineApp.ViewModels.Parent"
              x:DataType="ViewModel:ParentFamilyViewModel"
-             xmlns:Model="clr-namespace:Core.Models;assembly=Core"
-             Title="ParentFamilyPage">
+             xmlns:Model="clr-namespace:Core.Models;assembly=Core">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Share data with QR" Command="{Binding ShareDataWithQRCodeCommand}"/>
+        <ToolbarItem IconImageSource="qrcode.png"
+                     Order="Secondary"
+                     Text="Share data with QR"
+                     Command="{Binding GenerateandGotoThatePageCommand}" />
     </ContentPage.ToolbarItems>
 
-    <StackLayout Padding="40"
-                 WidthRequest="{OnPlatform UWP='300', Default='300'}">
-        <StackLayout Spacing="10">
-            <Label FontAttributes="Bold"
-                   Text="Family house number" />
-            <Label Text="{Binding Family.HouseNo}" />
-            <Label FontAttributes="Bold"
-                   Text="Family parent name" />
-            <Label Text="{Binding Family.ParentName}" />
-        </StackLayout>
-        <Label Text="---------------------------------" />
-        <CollectionView ItemsSource="{Binding Childs}">
-            <CollectionView.Header>
-                <StackLayout VerticalOptions="Center">
-                    <Label FontSize="Title"
-                           Text="Child Name" />
-                </StackLayout>
-            </CollectionView.Header>
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="Model:ChildModel">
-                    <StackLayout Padding="0,2,0,0">
-                        <Label Text="{Binding FullName}"></Label>
-                    </StackLayout>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-    </StackLayout>
+    <Grid RowDefinitions="0.15*, 0.85*"
+          RowSpacing="0"
+          HorizontalOptions="Center"
+          WidthRequest="{OnPlatform UWP='300', Default='300'}">
 
+        <StackLayout Grid.Row="0"
+                     VerticalOptions="CenterAndExpand"
+                     HorizontalOptions="CenterAndExpand">
+            <StackLayout Spacing="10"
+                         Orientation="Horizontal">
+                <Label FontAttributes="Bold"
+                       Text="House number" />
+                <Label Text="{Binding Family.HouseNo}" />
+            </StackLayout>
+
+            <StackLayout Spacing="10"
+                         Orientation="Horizontal">
+                <Label FontAttributes="Bold"
+                       Text="Parent name" />
+                <Label Text="{Binding Family.ParentName}" />
+            </StackLayout>
+
+        </StackLayout>
+
+        <ScrollView Grid.Row="1"
+                    IsClippedToBounds="True"
+                    Padding="4">
+
+            <CollectionView ItemsSource="{Binding Childs}"
+                            SelectionMode="Single"
+                            SelectedItem="{Binding SelectedChild}"
+                            SelectionChangedCommand="{Binding ChildDetailsCommand}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="Model:ChildModel">
+                        <Frame WidthRequest="280"
+                               HeightRequest="36"
+                               CornerRadius="4">
+                            <StackLayout Padding="5"
+                                         BackgroundColor="{DynamicResource ListItemBackgroundColor}">
+                                <Label TextColor="{DynamicResource ListItemTextColor}"
+                                       Text="{Binding FullName}" />
+                            </StackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </ScrollView>
+    </Grid>
 </ContentPage>

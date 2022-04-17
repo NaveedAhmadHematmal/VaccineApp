@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="VaccineApp.Views.Parent.VaccineNotifications.VaccineNotificationsPage"
+             xmlns:ViewModel="clr-namespace:VaccineApp.ViewModels.Parent.VaccineNotifications"
+             x:DataType="ViewModel:VaccinesNotificationsViewModel"
+             xmlns:Model="clr-namespace:Core.HybridModels;assembly=Core"
+             Title="Vaccine Notifications">
+
+    <Grid RowDefinitions="0.15*, 0.85*"
+          RowSpacing="0"
+          HorizontalOptions="Center"
+          WidthRequest="{OnPlatform UWP='300', Default='300'}">
+
+        <StackLayout Grid.Row="0"
+                     VerticalOptions="CenterAndExpand"
+                     HorizontalOptions="CenterAndExpand">
+            <Label FontSize="25"
+                   TextColor="{DynamicResource HeaderLabelTextColor}"
+                   Text="Next Vaccines" />
+        </StackLayout>
+
+        <ScrollView Grid.Row="1"
+                    IsClippedToBounds="True"
+                    Padding="4">
+
+            <CollectionView ItemsSource="{Binding ChildWithNextVaccine}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="Model:ChildWithNextVaccineModel">
+                        <Frame WidthRequest="280"
+                               HeightRequest="36"
+                               CornerRadius="4">
+                            <StackLayout Padding="5" Orientation="Horizontal" BackgroundColor="{DynamicResource ListItemBackgroundColor}">
+                                <Label Text="{Binding Child.FullName}"
+                                       TextColor="{DynamicResource ListItemTextColor}" />
+                                <Label Text=" : "
+                                       TextColor="{DynamicResource ListItemTextColor}" />
+                                <Label Text="{Binding NextVaccine}"
+                                       TextColor="{DynamicResource ListItemTextColor}" />
+                            </StackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </ScrollView>
+    </Grid>
+</ContentPage>

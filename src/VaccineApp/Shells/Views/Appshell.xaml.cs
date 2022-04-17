@@ -1,12 +1,12 @@
 using VaccineApp.Views.Admin.Home.Cluster;
 using VaccineApp.Views.Admin.Home.Team;
-using VaccineApp.Views.Admin.Home.User;
 using VaccineApp.Views.Admin.User;
 using VaccineApp.Views.App;
 using VaccineApp.Views.App.AboutUs;
 using VaccineApp.Views.App.HelpSupport;
 using VaccineApp.Views.App.Profile;
 using VaccineApp.Views.App.Settings;
+using VaccineApp.Views.Mobilizer.Announcements;
 using VaccineApp.Views.Mobilizer.Home.Area.Clinic;
 using VaccineApp.Views.Mobilizer.Home.Area.Doctor;
 using VaccineApp.Views.Mobilizer.Home.Area.Influencer;
@@ -14,18 +14,18 @@ using VaccineApp.Views.Mobilizer.Home.Area.Masjeed;
 using VaccineApp.Views.Mobilizer.Home.Area.School;
 using VaccineApp.Views.Mobilizer.Home.Family;
 using VaccineApp.Views.Mobilizer.Home.Family.Child;
+using VaccineApp.Views.Mobilizer.Home.Status;
+using VaccineApp.Views.Mobilizer.Home.Status.AnonymousChild;
+using VaccineApp.Views.Mobilizer.Home.Status.Vaccine;
 using VaccineApp.Views.Parent;
+using VaccineApp.Views.Parent.Guides;
+using VaccineApp.Views.Parent.QR;
+using VaccineApp.Views.Parent.VaccineNotifications;
 using VaccineApp.Views.Supervisor;
 using VaccineApp.Views.Supervisor.Announcements;
-using VaccineApp.Views.Mobilizer.Announcements;
-using VaccineApp.Views.Supervisor.Periods;
-using VaccineApp.Views.Mobilizer.Home.Status.AnonymousChild;
-using VaccineApp.Views.Mobilizer.Home.Status;
-using VaccineApp.Views.Parent.QR;
-using VaccineApp.Views.Supervisor.Reports;
-using VaccineApp.Views.Mobilizer.Home.Status.Vaccine;
 using VaccineApp.Views.Supervisor.Charts;
-using VaccineApp.Views.Parent.Guides;
+using VaccineApp.Views.Supervisor.Periods;
+using VaccineApp.Views.Supervisor.Reports;
 
 namespace VaccineApp.Shells.Views;
 public partial class Appshell : Shell
@@ -209,7 +209,7 @@ public partial class Appshell : Shell
 
         ShellContent periodPage = new()
         {
-            Title = "Period Page",
+            Title = "Period",
             Route = nameof(PeriodsListPage),
             ContentTemplate = new DataTemplate(typeof(PeriodsListPage))
         };
@@ -245,6 +245,10 @@ public partial class Appshell : Shell
         Routing.RegisterRoute(nameof(AddAnonymousChildPage), typeof(AddAnonymousChildPage));
         Routing.RegisterRoute(nameof(ChildDetailsPage), typeof(ChildDetailsPage));
         Routing.RegisterRoute(nameof(AddVaccinePage), typeof(AddVaccinePage));
+        Routing.RegisterRoute(nameof(MasjeedDetailsPage), typeof(MasjeedDetailsPage));
+        Routing.RegisterRoute(nameof(SchoolDetailsPage), typeof(SchoolDetailsPage));
+        Routing.RegisterRoute(nameof(ClinicDetailsPage), typeof(ClinicDetailsPage));
+        Routing.RegisterRoute(nameof(VaccineDetailsPage), typeof(VaccineDetailsPage));
 
         FlyoutItem home = new()
         {
@@ -366,6 +370,7 @@ public partial class Appshell : Shell
     {
         // Register routes for App pages
         Routing.RegisterRoute(nameof(QRGeneratedImagePage), typeof(QRGeneratedImagePage));
+        Routing.RegisterRoute(nameof(ParentChildDetailsPage), typeof(ParentChildDetailsPage));
       
         FlyoutItem home = new()
         {
@@ -385,6 +390,12 @@ public partial class Appshell : Shell
             Icon = "guides.png"
         };
 
+        Tab notifications = new()
+        {
+            Title = "Vaccine Notifications",
+            Icon = "notification.png"
+        };
+
         ShellContent familyPage = new()
         {
             Title = "Family",
@@ -394,7 +405,7 @@ public partial class Appshell : Shell
 
         ShellContent vaccinesTimeTablePage = new()
         {
-            Title = "VaccinesTimeTable",
+            Title = "Vaccines TimeTable",
             Route = nameof(VaccinesTimeTablePage),
             ContentTemplate = new DataTemplate(typeof(VaccinesTimeTablePage))
         };
@@ -406,12 +417,21 @@ public partial class Appshell : Shell
             ContentTemplate = new DataTemplate(typeof(VaccineGuidesPage))
         };
 
+        ShellContent vaccinesNotificationsPage = new()
+        {
+            Title = "Vaccines Notification",
+            Route = nameof(VaccineNotificationsPage),
+            ContentTemplate = new DataTemplate(typeof(VaccineNotificationsPage))
+        };
+
         family.Items.Add(familyPage);
         guides.Items.Add(vaccinesTimeTablePage);
         guides.Items.Add(vaccineGuidesPage);
+        notifications.Items.Add(vaccinesNotificationsPage);
 
         home.Items.Add(family);
         home.Items.Add(guides);
+        home.Items.Add(notifications);
 
         var list = new List<FlyoutItem>();
         list.Add(home);

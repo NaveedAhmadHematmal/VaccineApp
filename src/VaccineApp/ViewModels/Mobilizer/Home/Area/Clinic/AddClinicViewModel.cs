@@ -1,16 +1,22 @@
 ﻿using VaccineApp.Features;
 using Core.Models;
 using DAL.Persistence;
-using System.Windows.Input;
-using VaccineApp.ViewModels.Base;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace VaccineApp.ViewModels.Mobilizer.Home.Area.Clinic;
 
-public class AddClinicViewModel : ViewModelBase
+public partial class AddClinicViewModel : ObservableObject
 {
-    private readonly UnitOfWork _unitOfWork;
-    private readonly IToast _toast;
-    private ClinicModel _clinic;
+    readonly UnitOfWork _unitOfWork;
+    readonly IToast _toast;
+
+    [ObservableProperty]
+    ClinicModel _clinic;
+
+    [ObservableProperty]
+    bool _isLocationAvailable;
+
     ClinicValidator _clinicValidator { get; set; }
 
 
@@ -20,17 +26,31 @@ public class AddClinicViewModel : ViewModelBase
         _toast = toast;
         _clinic = clinic;
         _clinicValidator = new();
-
-        PostCommand = new Command(Post);
     }
 
-    public ICommand PostCommand { private set; get; }
-
-    private async void Post()
+    [ICommand]
+    async void Post()
     {
         var validationResult = _clinicValidator.Validate(Clinic);
         if (validationResult.IsValid)
         {
+            if (IsLocationAvailable)
+            {
+                try
+                {
+                    var location = await Geolocation.GetLastKnownLocationAsync();
+
+                    if (location != null)
+                    {
+                        Clinic.Latitude = location.Latitude.ToString();
+                        Clinic.Longitude = location.Longitude.ToString();
+                    }
+                }
+                catch (Exception)
+                {
+                    return;
+                }
+            }
             var result = await _unitOfWork.AddClinic(Clinic);
             await Shell.Current.GoToAsync("../");
             _toast.MakeToast($"{result.ClinicName} has been added");
@@ -38,19 +58,6 @@ public class AddClinicViewModel : ViewModelBase
         else
         {
             _toast.MakeToast(validationResult.Errors[0].PropertyName, validationResult.Errors[0].ErrorMessage);
-        }
-    }
-
-    public ClinicModel Clinic
-    {
-        get
-        {
-            return _clinic;
-        }
-        set
-        {
-            _clinic = value;
-            OnPropertyChanged();
         }
     }
 }

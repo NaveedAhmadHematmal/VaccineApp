@@ -5,9 +5,11 @@
              xmlns:ViewModel="clr-namespace:VaccineApp.ViewModels.Admin.Home.Cluster"
              x:DataType="ViewModel:AddClusterViewModel"
              Shell.TabBarIsVisible="False"
-             Title="AddClusterPage">
-    
-    <StackLayout Padding="40"
+             Title="Add Cluster">
+
+    <StackLayout Padding="10"
+                 Spacing="5"
+                 HorizontalOptions="Center"
                  WidthRequest="{OnPlatform UWP='300', Default='300'}">
         <Entry Placeholder="Cluster Name"
                Text="{Binding Cluster.ClusterName}"></Entry>

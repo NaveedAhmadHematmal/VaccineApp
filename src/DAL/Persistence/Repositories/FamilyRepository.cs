@@ -12,7 +12,7 @@ public class FamilyRepository : IFamilyRepository<FamilyModel>
     {
         _clientFactory = clientFactory;
     }
-    public async Task<FamilyModel> AddFamily(FamilyModel family, string teamId = null)
+    public async Task<FamilyModel> AddFamily(FamilyModel family, string teamId)
     {
         var client = _clientFactory.CreateClient("meta");
 
@@ -48,7 +48,23 @@ public class FamilyRepository : IFamilyRepository<FamilyModel>
         {
             var s = await client.GetFromJsonAsync<Dictionary<string, FamilyModel>>(DbNodePath.Family(teamId));
 
-            return s.Values.ToList();
+            return s != null ? s.Values.ToList() : Enumerable.Empty<FamilyModel>();
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+    }
+
+    public async Task<FamilyModel> GetParentFamily(string teamId, string familyId)
+    {
+        var client = _clientFactory.CreateClient("meta");
+
+        try
+        {
+            var s = await client.GetFromJsonAsync<Dictionary<string, FamilyModel>>(DbNodePath.Family(teamId));
+
+            return s is not null ? s.Values.First(x => x.Id.ToString() == familyId) : throw new Exception("No family attached to this accound");
         }
         catch (Exception)
         {

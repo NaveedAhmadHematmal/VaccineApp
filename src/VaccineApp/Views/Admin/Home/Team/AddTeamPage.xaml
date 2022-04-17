@@ -5,10 +5,11 @@
              xmlns:ViewModel="clr-namespace:VaccineApp.ViewModels.Admin.Home.Team"
              x:DataType="ViewModel:AddTeamViewModel"
              Shell.TabBarIsVisible="False"
-             Title="AddTeamPage">
-    <StackLayout Padding="40"
-                 Spacing="10"
-                 WidthRequest="{OnPlatform UWP='300', Default='300'}">
+             Title="Add Team">
+    <StackLayout Padding="10"
+                 Spacing="5"
+                 WidthRequest="{OnPlatform UWP='300', Default='300'}"
+                 HorizontalOptions="Center">
         <Entry Placeholder="Team No."
                Text="{Binding Team.TeamNo}"></Entry>
         <Entry Placeholder="CHW Name"
@@ -16,7 +17,7 @@
         <Picker ItemsSource="{Binding ClustersList}"
                 ItemDisplayBinding="{Binding ClusterName }"
                 SelectedItem="{Binding SelectedCluster }"
-                WidthRequest="{OnPlatform UWP='220', Default='220'}" />
+                WidthRequest="{OnPlatform UWP='280', Default='280'}" />
         <Button Text="Post"
                 TranslationY="50"
                 WidthRequest="130"

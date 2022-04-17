@@ -4,27 +4,54 @@
              x:Class="VaccineApp.Views.Supervisor.StatsPage"
              xmlns:ViewModel="clr-namespace:VaccineApp.ViewModels.Supervisor"
              xmlns:CountsPerParentModels="clr-namespace:Core.CountsPerParentModels;assembly=Core"
-             x:DataType="ViewModel:StatsViewModel"
-             Title="StatsPage">
-    <StackLayout Padding="40"
-                 Spacing="10">
-        <Label FontAttributes="Bold"
-               Text="ClusterName" />
-        <Label Text="{Binding Cluster.ClusterName}" />
-        <Label FontAttributes="Bold"
-               Text="Child Counts" />
-        <Label Text="{Binding Childs }" />
-        <Label Text="__________________"/>
-        <Label Text="Households per team"/>
-        <CollectionView ItemsSource="{Binding Families}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="CountsPerParentModels:FamiliesCountPerTeamsModel">
-                    <StackLayout Padding="0,2,0,0">
-                        <Label Text="{Binding TeamNo}" />
-                        <Label Text="{Binding FamiliesCount}" />
-                    </StackLayout>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-    </StackLayout>
+             x:DataType="ViewModel:StatsViewModel">
+
+    <Grid RowDefinitions="0.15*, 0.85*"
+          RowSpacing="0"
+          HorizontalOptions="Center"
+          WidthRequest="{OnPlatform UWP='300', Default='300'}">
+
+        <StackLayout Grid.Row="0"
+                     VerticalOptions="CenterAndExpand"
+                     HorizontalOptions="CenterAndExpand">
+            <StackLayout Spacing="10"
+                         Orientation="Horizontal">
+                <Label FontAttributes="Bold"
+                       Text="ClusterName" />
+                <Label Text="{Binding Cluster.ClusterName}" />
+            </StackLayout>
+            <StackLayout Spacing="10"
+                         Orientation="Horizontal">
+                <Label FontAttributes="Bold"
+                       Text="Cluster Total Child Counts" />
+                <Label Text="{Binding Childs }" />
+            </StackLayout>
+        </StackLayout>
+
+        <ScrollView Grid.Row="1"
+                    IsClippedToBounds="True"
+                    Padding="4">
+
+            <CollectionView ItemsSource="{Binding Families}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="CountsPerParentModels:FamiliesCountPerTeamsModel">
+                        <Frame WidthRequest="280"
+                               HeightRequest="36"
+                               CornerRadius="4">
+                            <StackLayout Padding="5"
+                                         BackgroundColor="{DynamicResource ListItemBackgroundColor}">
+                                <Label FontAttributes="Bold"
+                                       Text="{Binding TeamNo}"
+                                       TextColor="{DynamicResource ListItemTextColor}" />
+                                <Label Text=" : "
+                                       TextColor="{DynamicResource ListItemTextColor}" />
+                                <Label Text="{Binding FamiliesCount}"
+                                       TextColor="{DynamicResource ListItemTextColor}" />
+                            </StackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </ScrollView>
+    </Grid>
 </ContentPage>

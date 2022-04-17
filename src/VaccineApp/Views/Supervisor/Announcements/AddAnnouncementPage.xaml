@@ -4,10 +4,11 @@
              x:Class="VaccineApp.Views.Supervisor.Announcements.AddAnnouncementPage"
              xmlns:ViewModel="clr-namespace:VaccineApp.ViewModels.Supervisor.Announcements"
              x:DataType="ViewModel:AddAnnouncementViewModel"
-             Title="AddAnnouncementPage">
-    
-    <StackLayout Padding="40"
-                 Spacing="10"
+             Title="Add Announcements">
+
+    <StackLayout Padding="10"
+                 Spacing="5"
+                 HorizontalOptions="Center"
                  WidthRequest="{OnPlatform UWP='300', Default='300'}">
         
         <Entry Placeholder="Message Title"

@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="VaccineApp.Views.Admin.Home.User.AddUserPage"
+             x:Class="VaccineApp.Views.Admin.User.AddUserPage"
              xmlns:ViewModel="clr-namespace:VaccineApp.ViewModels.Admin.Home.User"
              x:DataType="ViewModel:AddUserViewModel"
              Shell.TabBarIsVisible="False"
-             Title="AddUserPage">
+             Title="Add User">
 
-    <StackLayout Padding="40"
-                 Spacing="10"
-                 WidthRequest="{OnPlatform UWP='300', Default='300'}">
+    <StackLayout Padding="10"
+                 Spacing="5"
+                 WidthRequest="{OnPlatform UWP='300', Default='300'}"
+                 HorizontalOptions="Center">
         <Entry Placeholder="Full Name"
                Text="{Binding FullName}" />
         <Entry Placeholder="Email"
@@ -26,22 +27,22 @@
                 SelectedItem="{Binding SelectedRole}"
                 SelectedIndexChanged="Click_Role"
                 x:Name="RolePicker"
-                WidthRequest="{OnPlatform UWP='220', Default='220'}" />
+                WidthRequest="{OnPlatform UWP='280', Default='280'}" />
         <Picker ItemsSource="{Binding ClustersList}"
                 SelectedItem="{Binding SelectedCluster}"
                 ItemDisplayBinding="{Binding ClusterName }"
                 x:Name="ClusterPicker"
-                WidthRequest="{OnPlatform UWP='220', Default='220'}" />
+                WidthRequest="{OnPlatform UWP='280', Default='280'}" />
         <Picker ItemsSource="{Binding TeamsList}"
                 SelectedItem="{Binding SelectedTeam}"
                 ItemDisplayBinding="{Binding TeamNo }"
                 x:Name="TeamPicker"
-                WidthRequest="{OnPlatform UWP='220', Default='220'}" />
+                WidthRequest="{OnPlatform UWP='280', Default='280'}" />
         <Picker ItemsSource="{Binding FamiliesList}"
                 SelectedItem="{Binding SelectedFamily}"
                 ItemDisplayBinding="{Binding ParentName }"
                 x:Name="FamilyPicker"
-                WidthRequest="{OnPlatform UWP='220', Default='220'}" />
+                WidthRequest="{OnPlatform UWP='280', Default='280'}" />
 
         <Button Text="Create User"
                 TranslationY="50"

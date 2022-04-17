@@ -5,10 +5,11 @@
              xmlns:ViewModel="clr-namespace:VaccineApp.ViewModels.Mobilizer.Home.Area.Masjeed"
              x:DataType="ViewModel:AddMasjeedViewModel"
              Shell.TabBarIsVisible="False"
-             Title="AddMasjeedPage">
+             Title="Add Masjeed">
 
     <StackLayout Padding="10"
                  Spacing="5"
+                 HorizontalOptions="Center"
                  WidthRequest="{OnPlatform UWP='300', Default='300'}">
         <Entry Text="{Binding Masjeed.MasjeedName, Mode=TwoWay}"
                Placeholder="Masjeed Name" />
@@ -27,7 +28,10 @@
                 </Label.Text>
             </Label>
         </StackLayout>
-
+        <StackLayout Orientation="Horizontal">
+            <CheckBox IsChecked="{Binding IsLocationAvailable}"/>
+            <Label Text="Add Location"/>
+        </StackLayout>
         <Button Text="Save"
                 TranslationY="50"
                 WidthRequest="130"

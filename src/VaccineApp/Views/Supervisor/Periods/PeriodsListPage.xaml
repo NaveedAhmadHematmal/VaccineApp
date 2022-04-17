@@ -4,26 +4,47 @@
              x:Class="VaccineApp.Views.Supervisor.Periods.PeriodsListPage"
              xmlns:ViewModel="clr-namespace:VaccineApp.ViewModels.Supervisor.Periods"
              xmlns:Model="clr-namespace:Core.Models;assembly=Core"
-             x:DataType="ViewModel:PeriodsListViewModel"
-             Title="PeriodsListPage">
+             x:DataType="ViewModel:PeriodsListViewModel">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Start new Period" Command="{Binding AddPeriodCommand}"/>
+        <ToolbarItem IconImageSource="add.png"
+                     Order="Secondary"
+                     Text="Start new Period"
+                     Command="{Binding AddPeriodCommand}" />
     </ContentPage.ToolbarItems>
 
-    <CollectionView ItemsSource="{Binding Periods}">
-        <CollectionView.Header>
-            <StackLayout VerticalOptions="Center">
-                <Label FontSize="Title"
-                       Text="Periods" />
-            </StackLayout>
-        </CollectionView.Header>
-        <CollectionView.ItemTemplate>
-            <DataTemplate x:DataType="Model:PeriodModel">
-                <StackLayout Padding="0,2,0,0">
-                    <Label Text="{Binding PeriodName}"></Label>
-                </StackLayout>
-            </DataTemplate>
-        </CollectionView.ItemTemplate>
-    </CollectionView>
+    <Grid RowDefinitions="0.15*, 0.85*"
+          RowSpacing="0"
+          HorizontalOptions="Center"
+          WidthRequest="{OnPlatform UWP='300', Default='300'}">
+
+        <StackLayout Grid.Row="0"
+                     VerticalOptions="CenterAndExpand"
+                     HorizontalOptions="CenterAndExpand">
+            <Label FontSize="25"
+                   TextColor="{DynamicResource HeaderLabelTextColor}"
+                   Text="Periods" />
+        </StackLayout>
+
+        <ScrollView Grid.Row="1"
+                    IsClippedToBounds="True"
+                    Padding="4">
+            <CollectionView ItemsSource="{Binding Periods}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="Model:PeriodModel">
+                        <Frame WidthRequest="280"
+                               HeightRequest="36"
+                               CornerRadius="4">
+                            <StackLayout Padding="5"
+                                         BackgroundColor="{DynamicResource ListItemBackgroundColor}">
+                                <Label Text="{Binding PeriodName}"
+                                       TextColor="{DynamicResource ListItemTextColor}" />
+                            </StackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+        </ScrollView>
+    </Grid>
 </ContentPage>

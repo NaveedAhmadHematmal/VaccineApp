@@ -4,33 +4,51 @@
              x:Class="VaccineApp.Views.Mobilizer.Home.Area.School.SchoolsListPage"
              xmlns:ViewModel="clr-namespace:VaccineApp.ViewModels.Mobilizer.Home.Area.School"
              x:DataType="ViewModel:SchoolsListViewModel"
-             xmlns:Model="clr-namespace:Core.Models;assembly=Core"
-             Title="SchoolsListPage">
+             xmlns:Model="clr-namespace:Core.Models;assembly=Core">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Add School"
+        <ToolbarItem IconImageSource="add.png"
+                     Order="Secondary"
+                     Text="Add School"
                      Command="{Binding AddSchoolCommand}" />
     </ContentPage.ToolbarItems>
 
-    <ScrollView Padding="10"
-                WidthRequest="{OnPlatform UWP='300', Default='300'}">
+    <Grid RowDefinitions="0.15*, 0.85*"
+          RowSpacing="0"
+          HorizontalOptions="Center"
+          WidthRequest="{OnPlatform UWP='300', Default='300'}">
 
-        <CollectionView SelectionMode="Single"
-                        ItemsSource="{Binding Schools}">
-            <CollectionView.Header>
-                <StackLayout VerticalOptions="Center">
-                    <Label FontAttributes="Bold"
-                           Text="Schools" />
-                </StackLayout>
-            </CollectionView.Header>
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="Model:SchoolModel">
-                    <StackLayout>
-                        <Label Text="{Binding SchoolName}"></Label>
-                    </StackLayout>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+        <StackLayout Grid.Row="0"
+                     VerticalOptions="CenterAndExpand"
+                     HorizontalOptions="CenterAndExpand">
+            <Label FontSize="25"
+                   TextColor="{DynamicResource HeaderLabelTextColor}"
+                   Text="School Name" />
+        </StackLayout>
 
-    </ScrollView>
+        <ScrollView Grid.Row="1"
+                    IsClippedToBounds="True"
+                    Padding="4">
+
+            <CollectionView SelectionMode="Single"
+                            ItemsSource="{Binding Schools}"
+                            SelectedItem="{Binding SelectedSchool}"
+                            SelectionChangedCommand="{Binding SchoolDetailsCommand}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="Model:SchoolModel">
+                        <Frame WidthRequest="280"
+                               HeightRequest="36"
+                               CornerRadius="4">
+                            <StackLayout Padding="5"
+                                         BackgroundColor="{DynamicResource ListItemBackgroundColor}">
+                                <Label TextColor="{DynamicResource ListItemTextColor}"
+                                       Text="{Binding SchoolName}"></Label>
+                            </StackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+        </ScrollView>
+    </Grid>
 </ContentPage>

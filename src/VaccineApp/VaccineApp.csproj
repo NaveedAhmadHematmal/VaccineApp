@@ -8,6 +8,7 @@
 		<UseMaui>true</UseMaui>
 		<SingleProject>true</SingleProject>
 		<ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
 		<EnablePreviewMsixTooling>true</EnablePreviewMsixTooling>
 		<EnableDefaultCssItems>false</EnableDefaultCssItems>
 
@@ -44,17 +45,12 @@
 		<MauiFont Include="Resources\Fonts\*" />
 	</ItemGroup>
 
-	<ItemGroup Condition="$(TargetFramework.Contains('-windows'))">
-		<!-- Required - WinUI does not yet have buildTransitive for everything -->
-		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0" />
-		<PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.0.30" />
-	</ItemGroup>
-
 	<ItemGroup>
 		<None Remove="RawText\VaccineGuides.txt" />
 		<None Remove="Resources\Fonts\OpenSans-Regular.ttf" />
 		<None Remove="Resources\Images\abdulbasir.jpg" />
 		<None Remove="Resources\Images\aboutus.svg" />
+		<None Remove="Resources\Images\add.svg" />
 		<None Remove="Resources\Images\admin.svg" />
 		<None Remove="Resources\Images\android.svg" />
 		<None Remove="Resources\Images\announcement.svg" />
@@ -62,6 +58,7 @@
 		<None Remove="Resources\Images\area.svg" />
 		<None Remove="Resources\Images\bug.svg" />
 		<None Remove="Resources\Images\chart.svg" />
+		<None Remove="Resources\Images\edit.svg" />
 		<None Remove="Resources\Images\enhancement.svg" />
 		<None Remove="Resources\Images\family.svg" />
 		<None Remove="Resources\Images\feedback.svg" />
@@ -70,15 +67,20 @@
 		<None Remove="Resources\Images\home.svg" />
 		<None Remove="Resources\Images\idea.svg" />
 		<None Remove="Resources\Images\linkedin.svg" />
+		<None Remove="Resources\Images\location.svg" />
 		<None Remove="Resources\Images\logout.svg" />
 		<None Remove="Resources\Images\mobilizer.svg" />
 		<None Remove="Resources\Images\mohammadyasin.jpg" />
 		<None Remove="Resources\Images\multipledevices.svg" />
 		<None Remove="Resources\Images\naveedahmad.jpg" />
+		<None Remove="Resources\Images\notification.svg" />
 		<None Remove="Resources\Images\parent.svg" />
 		<None Remove="Resources\Images\period.svg" />
 		<None Remove="Resources\Images\ProfileDefaultImage.svg" />
+		<None Remove="Resources\Images\qrcode.svg" />
 		<None Remove="Resources\Images\report.svg" />
+		<None Remove="Resources\Images\resetsettings.svg" />
+		<None Remove="Resources\Images\save.svg" />
 		<None Remove="Resources\Images\stats.svg" />
 		<None Remove="Resources\Images\status.svg" />
 		<None Remove="Resources\Images\supervisor.svg" />
@@ -146,6 +148,9 @@
 		<MauiXaml Update="Views\Mobilizer\Home\Area\Clinic\AddClinicPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
+		<MauiXaml Update="Views\Mobilizer\Home\Area\Clinic\ClinicDetailsPage.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 		<MauiXaml Update="Views\Mobilizer\Home\Area\Clinic\ClinicsListPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
@@ -164,11 +169,17 @@
 		<MauiXaml Update="Views\Mobilizer\Home\Area\Masjeed\AddMasjeedPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
+		<MauiXaml Update="Views\Mobilizer\Home\Area\Masjeed\MasjeedDetailsPage.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 		<MauiXaml Update="Views\Mobilizer\Home\Area\Masjeed\MasjeedsListPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 		<MauiXaml Update="Views\Mobilizer\Home\Area\School\AddSchoolPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\Mobilizer\Home\Area\School\SchoolDetailsPage.xaml">
+		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 		<MauiXaml Update="Views\Mobilizer\Home\Area\School\SchoolsListPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
@@ -200,17 +211,26 @@
 		<MauiXaml Update="Views\Mobilizer\Home\Status\Vaccine\AddVaccinePage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
+		<MauiXaml Update="Views\Mobilizer\Home\Status\Vaccine\VaccineDetailsPage.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 		<MauiXaml Update="Views\Parent\Guides\VaccineGuidesPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 		<MauiXaml Update="Views\Parent\Guides\VaccinesTimeTablePage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
+		<MauiXaml Update="Views\Parent\ParentChildDetailsPage.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 		<MauiXaml Update="Views\Parent\ParentFamilyPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 		<MauiXaml Update="Views\Parent\QR\QRGeneratedImagePage.xaml">
 			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\Parent\VaccineNotifications\VaccineNotificationsPage.xaml">
+		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 		<MauiXaml Update="Views\Supervisor\Announcements\AddAnnouncementPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
@@ -247,11 +267,12 @@
 
 	<ItemGroup>
 		<PackageReference Include="AutoMapper" Version="11.0.1" />
-		<PackageReference Include="FirebaseAdmin" Version="2.2.0" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0-preview2" />
+		<PackageReference Include="FirebaseAdmin" Version="2.3.0" />
 		<PackageReference Include="FirebaseStorage.net" Version="1.0.3" />
 		<PackageReference Include="GitHubJwt" Version="0.0.5" />
 		<PackageReference Include="SkiaSharp.QrCode" Version="0.4.1" />
-		<PackageReference Include="Syncfusion.Xamarin.Pdf" Version="19.4.0.53" />
+		<PackageReference Include="Syncfusion.Xamarin.Pdf" Version="20.1.0.48" />
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
 	</ItemGroup>
 

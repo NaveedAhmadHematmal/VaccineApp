@@ -5,35 +5,45 @@ using Newtonsoft.Json;
 using SkiaSharp;
 using SkiaSharp.QrCode;
 using System.Collections.ObjectModel;
-using System.Windows.Input;
-using VaccineApp.ViewModels.Base;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using VaccineApp.Views.Parent;
 using VaccineApp.Views.Parent.QR;
 
 namespace VaccineApp.ViewModels.Parent;
 
-public class ParentFamilyViewModel : ViewModelBase
+public partial class ParentFamilyViewModel : ObservableObject
 {
-    private readonly UnitOfWork _unitOfwork;
-    private FamilyModel _family;
-    private Guid _familyId;
-    private IEnumerable<ChildModel> _childs;
+    readonly UnitOfWork _unitOfwork;
+
+    [ObservableProperty]
+    FamilyModel _family;
+
+    [ObservableProperty]
+    Guid _familyId;
+
+    [ObservableProperty]
+    IEnumerable<ChildModel> _childs;
+
+    [ObservableProperty]
+    ChildModel _selectedChild;
 
     public ParentFamilyViewModel(UnitOfWork unitOfwork, FamilyModel family)
     {
         _unitOfwork = unitOfwork;
         _family = family;
         _familyId = Guid.Parse(Preferences.Get("FamilyId", "AnonymousFamilyId"));
-        ShareDataWithQRCodeCommand = new Command(GenerateandGotoThatePage);
     }
 
-    private async void GenerateandGotoThatePage()
+    [ICommand]
+    async void GenerateandGotoThatePage()
     {
         await ShareDataWithQRCode();
 
         await Shell.Current.GoToAsync(nameof(QRGeneratedImagePage));
     }
 
-    private async Task ShareDataWithQRCode()
+    async Task ShareDataWithQRCode()
     {
         FamilyWithChildrenModel familyWithChildrenModel = new();
         familyWithChildrenModel.Family = Family;
@@ -64,18 +74,6 @@ public class ParentFamilyViewModel : ViewModelBase
         data.SaveTo(stream);
     }
 
-    public FamilyModel Family
-    {
-        get { return _family; }
-        set { _family = value; OnPropertyChanged(); }
-    }
-
-    public IEnumerable<ChildModel> Childs
-    {
-        get { return _childs; }
-        set { _childs = value; OnPropertyChanged(); }
-    }
-
     public async void GetFamily()
     {
         try
@@ -103,5 +101,20 @@ public class ParentFamilyViewModel : ViewModelBase
             return;
         }
     }
-    public ICommand ShareDataWithQRCodeCommand { private set; get; }
+
+    [ICommand]
+    private async void ChildDetails()
+    {
+        if (SelectedChild == null)
+        {
+            return;
+        }
+        else
+        {
+            var SelectedItemJson = JsonConvert.SerializeObject(SelectedChild);
+            var route = $"{nameof(ParentChildDetailsPage)}?Child={SelectedItemJson}";
+            await Shell.Current.GoToAsync(route);
+            SelectedChild = null;
+        }
+    }
 }
